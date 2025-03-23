@@ -250,6 +250,9 @@ Plug_GetPathsInfo()
 
 }
 
+#ifdef ARCH_OS_WINDOWS
+__declspec(dllexport)
+#endif
 void
 Plug_SetPaths(const std::vector<std::string>& paths,
               const std::vector<std::string>& debugMessages,
