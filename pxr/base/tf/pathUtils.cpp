@@ -268,6 +268,40 @@ bool TfIsRelativePath(std::string const& path)
 vector<string>
 TfGlob(vector<string> const& paths, unsigned int flags)
 {
+#ifdef __ANDROID__
+    auto ends_with=[](const string &a, const string &b){ return a.size() >= b.size() && a.compare(a.size()-b.size(), b.size(), b) == 0; };
+    auto cb = [](string tmp, int idx, const string &rep) { return tmp.replace(idx, 1, rep); };
+    vector<string> results;
+    for (size_t i = 0; i < paths.size(); ++i) {
+        if (ends_with(paths[i], "/lib/usd/*/resources/")) {
+            const int idx = paths[i].find('*');
+            results.emplace_back(cb(paths[i], idx, "ar"));
+            results.emplace_back(cb(paths[i], idx, "sdf"));
+            results.emplace_back(cb(paths[i], idx, "sdr"));
+            results.emplace_back(cb(paths[i], idx, "usd"));
+            results.emplace_back(cb(paths[i], idx, "usdGeom"));
+            results.emplace_back(cb(paths[i], idx, "usdHydra"));
+            results.emplace_back(cb(paths[i], idx, "usdLux"));
+            results.emplace_back(cb(paths[i], idx, "usdMedia"));
+            results.emplace_back(cb(paths[i], idx, "usdPhysics"));
+            results.emplace_back(cb(paths[i], idx, "usdProc"));
+            results.emplace_back(cb(paths[i], idx, "usdRender"));
+            results.emplace_back(cb(paths[i], idx, "usdRi"));
+            results.emplace_back(cb(paths[i], idx, "usdSemantics"));
+            results.emplace_back(cb(paths[i], idx, "usdShade"));
+            results.emplace_back(cb(paths[i], idx, "usdSkel"));
+            results.emplace_back(cb(paths[i], idx, "usdUI"));
+            results.emplace_back(cb(paths[i], idx, "usdVol"));
+            continue;
+        }
+        if (ends_with(paths[i], "/plugin/usd/*/resources/")) {
+            const int idx = paths[i].find('*');
+            results.emplace_back(cb(paths[i], idx, "usdShaders"));
+            continue;
+        }
+    }
+    return results;
+#else
     if (paths.empty()) {
         return vector<string>();
     }
@@ -292,6 +326,7 @@ TfGlob(vector<string> const& paths, unsigned int flags)
     globfree(&globbuf);
 
     return results;
+#endif
 }
 
 #else

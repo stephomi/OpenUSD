@@ -286,18 +286,7 @@ struct Arch_ConstructorEntry {
     };                                                                         \
     static void _name()
 
-#elif defined(ARCH_COMPILER_GCC) || defined(ARCH_COMPILER_CLANG)
-
-// The used attribute is required to prevent these apparently unused functions
-// from being removed by the linker.
-#   define ARCH_CONSTRUCTOR(_name, _priority) \
-        __attribute__((used, section(".pxrctor"), constructor((_priority) + 100))) \
-        static void _name()
-#   define ARCH_DESTRUCTOR(_name, _priority) \
-        __attribute__((used, section(".pxrdtor"), destructor((_priority) + 100))) \
-        static void _name()
-
-#elif defined(ARCH_OS_WINDOWS)
+#elif defined(ARCH_OS_WINDOWS) && 0
     
 #    include "pxr/base/arch/api.h"
     
@@ -362,6 +351,17 @@ struct Arch_ConstructorInit {
     }                                                                          \
     _ARCH_ENSURE_PER_LIB_INIT(Arch_ConstructorInit, _archCtorInit);            \
     static void _name()
+
+#elif defined(ARCH_COMPILER_GCC) || defined(ARCH_COMPILER_CLANG)
+
+// The used attribute is required to prevent these apparently unused functions
+// from being removed by the linker.
+#   define ARCH_CONSTRUCTOR(_name, _priority) \
+        __attribute__((used, section(".pxrctor"), constructor((_priority) + 100))) \
+        static void _name()
+#   define ARCH_DESTRUCTOR(_name, _priority) \
+        __attribute__((used, section(".pxrdtor"), destructor((_priority) + 100))) \
+        static void _name()
 
 #else
 

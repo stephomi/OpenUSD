@@ -70,4 +70,4 @@ install(FILES
   DESTINATION "${CMAKE_INSTALL_PREFIX}"
 )
 
-install(EXPORT pxrTargets DESTINATION "cmake")
+# install(EXPORT pxrTargets DESTINATION "cmake")
