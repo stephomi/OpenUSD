@@ -1181,6 +1181,10 @@ function(pxr_setup_plugins)
     set(plugInfoContents "{\n    \"Includes\": [\n        \"*/${resourcesDir}/\"${extraIncludes}\n    ]\n}\n")
     file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/plugins_plugInfo.json"
          "${plugInfoContents}")
+    file(GENERATE
+        OUTPUT "${PROJECT_BINARY_DIR}/install/lib/usd/plugInfo.json"
+        CONTENT "${plugInfoContents}"
+    )
     install(
         FILES "${CMAKE_CURRENT_BINARY_DIR}/plugins_plugInfo.json"
         DESTINATION lib/usd
@@ -1190,6 +1194,10 @@ function(pxr_setup_plugins)
     set(plugInfoContents "{\n    \"Includes\": [ \"*/${resourcesDir}/\" ]\n}\n")
     file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/usd_plugInfo.json"
          "${plugInfoContents}")
+    file(GENERATE
+         OUTPUT "${PROJECT_BINARY_DIR}/install/plugin/usd/plugInfo.json"
+         CONTENT "${plugInfoContents}"
+    )
     install(
         FILES "${CMAKE_CURRENT_BINARY_DIR}/usd_plugInfo.json"
         DESTINATION plugin/usd

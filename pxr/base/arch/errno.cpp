@@ -53,7 +53,7 @@ ArchStrerror(int errorCode)
     //
     char* result = strerror_r(errorCode, msg_buf, sizeof(msg_buf));
     return std::string(result);
-#elif !defined(ARCH_COMPILER_MSVC)
+#elif !defined(ARCH_OS_WINDOWS)
     strerror_r(errorCode, msg_buf, 256);
 #else
     strerror_s(msg_buf, 256, errorCode);
