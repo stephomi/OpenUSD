@@ -31,6 +31,7 @@
 #include <sys/stat.h>
 #if defined(ARCH_OS_WINDOWS)
 #include <functional>
+#include <share.h>
 #include <io.h>
 #include <process.h>
 #include <sys/utime.h>
